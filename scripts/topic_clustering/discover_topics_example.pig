@@ -1,17 +1,18 @@
 register '../../target/varaha-1.0-SNAPSHOT.jar';
 register '../../lib/mallet-2.0.7-RC2.jar';
 register '../../lib/trove-2.0.4.jar';
-register '../../lib/lucene-core-3.1.0.jar';
+register '../../lib/lucene-core-4.4.0.jar';
+register '../../lib/lucene-analyzers-common-4.4.0.jar';
 register '../../lib/pygmalion-1.1.0-SNAPSHOT.jar';
 
-define TokenizeText varaha.text.TokenizeText();
+define TokenizeText varaha.text.TokenizeText('1', '2', '5');
 define LDATopics varaha.topic.LDATopics();
 define RangeConcat org.pygmalion.udf.RangeBasedStringConcat('0', ' ');
 
 -- 
 -- Load the docs
 -- 
-raw_documents = load '$DOCS' as (doc_id:chararray, text:chararray);
+raw_documents = load '../../data/20news_test_topic_modelling.tsv' as (doc_id:chararray, text:chararray);
 
 --
 -- Tokenize text to remove stopwords
@@ -42,4 +43,4 @@ topics = foreach (group for_lda all) generate
          );
 
 
-store topics into '$OUT';
+store topics into 'article_topics.txt';
