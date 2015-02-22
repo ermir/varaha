@@ -12,7 +12,7 @@ define RangeConcat org.pygmalion.udf.RangeBasedStringConcat('0', ' ');
 -- 
 -- Load the docs
 -- 
-raw_documents = load '../../data/20news_test_topic_modelling.tsv' as (doc_id:chararray, text:chararray);
+raw_documents = load '$DOCS' as (doc_id:chararray, text:chararray);
 
 --
 -- Tokenize text to remove stopwords
@@ -43,4 +43,4 @@ topics = foreach (group for_lda all) generate
          );
 
 
-store topics into 'article_topics.txt';
+store topics into '$OUT';
